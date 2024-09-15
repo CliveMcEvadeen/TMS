@@ -1,0 +1,22 @@
+ id: 1,
+        name: "rental-admin",
+        guard_name: "web",
+        created_at: "2024-09-03 10:51:34",
+        updated_at: "2024-09-03 10:51:34",
+      },
+      Spatie\Permission\Models\Role {#7364
+        id: 2,
+        name: "rental-manager",
+        guard_name: "web",
+        created_at: "2024-09-03 10:51:34",
+        updated_at: "2024-09-03 10:51:34",
+      },
+      Spatie\Permission\Models\Role {#7365
+        id: 3,
+        name: "rental-staff",
+        guard_name: "web",
+        created_at: "2024-09-03 10:51:34",
+        updated_at: "2024-09-03 10:51:34",
+      },
+    ],
+  }
