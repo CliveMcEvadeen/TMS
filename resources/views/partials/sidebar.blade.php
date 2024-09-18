@@ -118,7 +118,7 @@
 
         <li class="nav-item">
 
-                <a class="nav-link" href="{{ route('chatify') }}">
+                <a class="nav-link" href="{{ route('reports.create') }}">
 
                 <i class="ti-comment menu-icon"></i>
                 <span class="menu-title">Chat</span>

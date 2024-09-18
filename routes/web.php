@@ -106,6 +106,8 @@ Route::middleware(['auth','role:rental-admin|rental-manager|rental-staff'])->gro
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments');
     Route::get('/payments/{payment}', [PaymentController::class, 'find_payment']);
 
-    Route::get('/chatify', 'Chatify\Http\Controllers\MessagesController@index')->name('chatify');
+
+    Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
+    Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
 
 });
