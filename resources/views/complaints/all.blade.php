@@ -13,7 +13,7 @@
                 <th>Block</th>
                 <th>Description</th>
                 <th>Status</th>
-                <th>Submission Time</th> <!-- New column for submission time -->
+                <th>Submission Time</th> <!-- Include submission time -->
                 @role('rental-admin')
                 <th>Actions</th>
                 @endrole
@@ -22,28 +22,28 @@
         <tbody>
             @foreach($complaints as $complaint)
                 <tr>
-                    <td>C-{{ $complaint->complaint_code }}</td>
+                    <td>{{ $complaint->complaint_code }}</td>
                     <td>{{ $complaint->tenant->name }}</td>
                     <td>{{ $complaint->room_number }}</td>
                     <td>{{ $complaint->block }}</td>
                     <td>
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#descriptionModal{{ $complaint->complaint_code }}">
-                            View
+                            View Complaint
                         </button>
                         @include('complaints.description-modal', ['complaint' => $complaint])
                     </td>
                     <td>
-                    @role('rental-admin|rental-staff')
-                        @if($complaint->status == 'pending')
-                            <span class="badge bg-warning text-dark">{{ ucfirst($complaint->status) }}</span>
-                        @elseif($complaint->status == 'resolved')
-                            <span class="badge bg-success">{{ ucfirst($complaint->status) }}</span>
-                        @else
-                            <span class="badge bg-secondary">{{ ucfirst($complaint->status) }}</span>
-                        @endif
-                    @endrole
+                        @role('rental-admin|rental-staff')
+                            @if($complaint->status == 'pending')
+                                <span class="badge bg-warning text-dark">{{ ucfirst($complaint->status) }}</span>
+                            @elseif($complaint->status == 'resolved')
+                                <span class="badge bg-success">{{ ucfirst($complaint->status) }}</span>
+                            @else
+                                <span class="badge bg-secondary">{{ ucfirst($complaint->status) }}</span>
+                            @endif
+                        @endrole
                     </td>
-                    <td>{{ $complaint->created_at->format('Y-m-d H:i') }}</td> <!-- Displaying the submission time -->
+                    <td>{{ $complaint->created_at->format('Y-m-d H:i') }}</td> <!-- Display submission time -->
                     <td>
                         @role('rental-admin')
                             @if($complaint->status == 'pending')

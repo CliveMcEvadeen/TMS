@@ -123,6 +123,7 @@ Route::middleware(['auth','role:rental-admin|rental-manager|rental-staff|landlor
 
     // Landlord routes
     Route::middleware('role:landlord|rental-manager|rental-admin')->group(function () {
+    Route::get('complaints/all', [ComplaintController::class, 'allComplaints'])->name('complaints.all');
     Route::get('/landlord/payments', [PaymentController::class, 'landlordIndex'])->name('landlord.payments.index'); // Landlord view all payments
     Route::post('/payments/approve/{id}', [PaymentController::class, 'approve'])->name('payments.approve'); // Approve payment
     Route::post('/payments/reject/{id}', [PaymentController::class, 'reject'])->name('payments.reject'); // Reject payment

@@ -4,12 +4,16 @@
 
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
+
+        @role('rental-admin')
+
         <li class="nav-item">
             <a class="nav-link" href="{{ route('dashboard') }}">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
+        @endrole
 
         @role('rental-admin|rental-manager')
         <li class="nav-item {{ $url == 'rents' ? 'active' : null }}">
@@ -19,12 +23,6 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="ti-wallet menu-icon"></i>
-                <span class="menu-title">Payments</span>
-            </a>
-        </li>
 
         <li class="nav-item {{ $url == 'property' ? 'active' : null }}">
             <a class="nav-link" data-toggle="collapse" href="#property" aria-expanded="false" aria-controls="property">
@@ -76,22 +74,6 @@
         @endrole
 
         @role('rental-staff')
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="ti-wallet menu-icon"></i>
-                <span class="menu-title">Make Payments</span>
-            </a>
-        </li>
-
-
-        @endrole
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('reports.create') }}">
-                <i class="ti-comment menu-icon"></i>
-                <span class="menu-title">Chat</span>
-            </a>
-        </li>
 
         <li class="nav-item">
             <a class="nav-link" href="{{ route('payments.index') }}">
@@ -99,6 +81,7 @@
                 <span class="menu-title">Payment History</span>
             </a>
         </li>
+        
 
         <li class="nav-item">
             <a class="nav-link" href="#" data-toggle="modal" data-target="#paymentModal">
@@ -106,6 +89,9 @@
                 <span class="menu-title">Make a Payment</span>
             </a>
         </li>
+        @endrole
+
+        @role('rental-admin')
 
         <li class="nav-item">
             <a class="nav-link" href="{{ route('landlord.payments.index') }}">
@@ -113,8 +99,11 @@
                 <span class="menu-title">Manage Payments</span>
             </a>
         </li>
-    </ul>
-    <li class="nav-item {{ $url == 'complaints' ? 'active' : null }}">
+        @endrole
+
+        @role('rental-staff')
+
+        <li class="nav-item {{ $url == 'complaints' ? 'active' : null }}">
             <a class="nav-link" href="{{ route('complaints.create') }}">
                 <i class="ti-comment-alt menu-icon"></i>
                 <span class="menu-title">Submit a Complaint</span>
@@ -126,4 +115,18 @@
                 <i class="ti-comment menu-icon"></i>
                 <span class="menu-title">Complaints</span>
             </a>
+        
+        </li>
+        @endrole
+
+        @role('rental-admin')
+        <li class="nav-item {{ $url == 'complaints' ? 'active' : null }}">
+            <a class="nav-link" href="{{ route('complaints.index') }}">
+                <i class="ti-comment menu-icon"></i>
+                <span class="menu-title">Complaints</span>
+            </a>
+        @endrole
+        </li>
+    </ul>
+
 </nav>

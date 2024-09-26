@@ -40,24 +40,29 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function login(Request $request){
+    protected function login(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+        'g-recaptcha-response' => 'recaptcha', // recaptcha validation
+    ]);
 
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-            'g-recaptcha-response' => 'recaptcha',//recaptcha validation
-        ]);
+    $filteredCredentials = [
+        'email' => $credentials['email'],
+        'password' => $credentials['password'],
+    ];
 
-        $filteredCredentials = [
-            'email' => $credentials['email'],
-            'password' => $credentials['password'],
-        ];
-
-        if(Auth::attempt($filteredCredentials)){
-            
-                return redirect('dashboard');
-        }else{
-            return redirect()->back()->withInput()->withErrors(['email' => 'These credentials do not match our records!']);
+    if (Auth::attempt($filteredCredentials)) {
+        // Check if the logged-in user is a tenant
+        if (Auth::user()->hasRole('rental-staff')) {
+            return redirect()->route('payments.index'); // Redirect to payment history
         }
+        
+        return redirect('dashboard'); // For other roles, redirect to the dashboard
+    } else {
+        return redirect()->back()->withInput()->withErrors(['email' => 'These credentials do not match our records!']);
     }
+}
+
 }
