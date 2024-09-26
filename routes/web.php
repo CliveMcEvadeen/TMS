@@ -13,6 +13,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ComplaintController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +43,13 @@ Auth::routes([
     'verify' => false
 ]);
 
-Route::middleware(['auth','role:rental-admin|rental-manager|rental-staff'])->group(function(){
+Route::middleware(['auth','role:rental-admin|rental-manager|rental-staff|landlord'])->group(function(){
+    
+    Route::get('/complaints/create', [ComplaintController::class, 'create'])->name('complaints.create');
+    Route::get('complaints', [ComplaintController::class, 'index'])->name('complaints.index');
+    Route::post('complaints', [ComplaintController::class, 'store'])->name('complaints.store');
+    Route::post('complaints/{id}/resolve', [ComplaintController::class, 'resolve'])->name('complaints.resolve');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/sales/data', [DashboardController::class, 'sales_chart']);
     Route::get('/dashboard/properties/data', [DashboardController::class, 'properties_chart']);
@@ -109,5 +117,24 @@ Route::middleware(['auth','role:rental-admin|rental-manager|rental-staff'])->gro
 
     Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
     Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+
+    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index'); // View payment history
+    Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store'); // Store payment
+
+    // Landlord routes
+    Route::middleware('role:landlord|rental-manager|rental-admin')->group(function () {
+    Route::get('/landlord/payments', [PaymentController::class, 'landlordIndex'])->name('landlord.payments.index'); // Landlord view all payments
+    Route::post('/payments/approve/{id}', [PaymentController::class, 'approve'])->name('payments.approve'); // Approve payment
+    Route::post('/payments/reject/{id}', [PaymentController::class, 'reject'])->name('payments.reject'); // Reject payment
+    });
+
+   // Route for tenants to view their receipts
+    Route::get('/tenant/receipts', [PaymentController::class, 'viewReceipts'])->name('tenant.receipts');
+
+    // Route for landlords to generate receipts for approved payments
+    Route::get('/landlord/payments/{paymentId}/receipt', [PaymentController::class, 'generateReceipt'])->name('landlord.generateReceipt');
+
+    // Route for tenants to download their payment receipt
+    Route::get('/payments/receipt/{paymentId}', [PaymentController::class, 'showReceipt'])->name('payments.receipt');
 
 });

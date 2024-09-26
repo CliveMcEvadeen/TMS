@@ -12,7 +12,6 @@
         </li>
 
         @role('rental-admin|rental-manager')
-           
         <li class="nav-item {{ $url == 'rents' ? 'active' : null }}">
             <a class="nav-link" href="{{ route('rents') }}">
                 <i class="ti-layers-alt menu-icon"></i>
@@ -35,8 +34,7 @@
             </a>
             <div class="collapse {{ $url == 'property' ? 'show' : null }}" id="property">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('property') }}"> Manage Properties </a>
-                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('property') }}"> Manage Properties </a></li>
                 </ul>
             </div>
         </li>
@@ -49,39 +47,10 @@
             </a>
             <div class="collapse {{ $url == 'tenants' ? 'show' : null }}" id="tenants">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('tenants') }}"> Manage Tenants </a>
-                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('tenants') }}"> Manage Tenants </a></li>
                 </ul>
             </div>
         </li>
-
-        <!-- <li class="nav-item {{ $url == 'owners' ? 'active' : null }}">
-            <a class="nav-link" data-toggle="collapse" href="#owners" aria-expanded="false" aria-controls="owners">
-                <i class="icon-head menu-icon"></i>
-                <span class="menu-title">Landlords</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse {{ $url == 'owners' ? 'show' : null }}" id="owners">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('owners') }}"> Manage Owners </a>
-                    </li>
-                </ul>
-            </div>
-        </li> -->
-
-        <!-- <li class="nav-item {{ $url == 'sales' ? 'active' : null }}">
-            <a class="nav-link" data-toggle="collapse" href="#sales" aria-expanded="false" aria-controls="sales">
-                <i class="ti-money menu-icon"></i>
-                <span class="menu-title">Sales</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse {{ $url == 'sales' ? 'show' : null }}" id="sales">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('sales') }}"> Manage Sales </a>
-                    </li>
-                </ul>
-            </div>
-        </li> -->
 
         <li class="nav-item">
             <a class="nav-link" href="{{ route('settings') }}">
@@ -89,6 +58,7 @@
                 <span class="menu-title">Settings</span>
             </a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                 <i class="icon-head menu-icon"></i>
@@ -97,32 +67,63 @@
             </a>
             <div class="collapse" id="auth">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('users') }}"> Manage Users </a>
-                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('users') }}"> Manage Users </a></li>
                 </ul>
             </div>
+        </li>
+
         </li>
         @endrole
 
         @role('rental-staff')
-        
-
         <li class="nav-item">
             <a class="nav-link" href="#">
                 <i class="ti-wallet menu-icon"></i>
-                <span class="menu-title"> Make Payments</span>
+                <span class="menu-title">Make Payments</span>
             </a>
         </li>
+
 
         @endrole
 
         <li class="nav-item">
-
-                <a class="nav-link" href="{{ route('reports.create') }}">
-
+            <a class="nav-link" href="{{ route('reports.create') }}">
                 <i class="ti-comment menu-icon"></i>
                 <span class="menu-title">Chat</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('payments.index') }}">
+                <i class="ti-wallet menu-icon"></i>
+                <span class="menu-title">Payment History</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#paymentModal">
+                <i class="ti-credit-card menu-icon"></i>
+                <span class="menu-title">Make a Payment</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('landlord.payments.index') }}">
+                <i class="ti-check menu-icon"></i>
+                <span class="menu-title">Manage Payments</span>
+            </a>
+        </li>
     </ul>
+    <li class="nav-item {{ $url == 'complaints' ? 'active' : null }}">
+            <a class="nav-link" href="{{ route('complaints.create') }}">
+                <i class="ti-comment-alt menu-icon"></i>
+                <span class="menu-title">Submit a Complaint</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ $url == 'complaints' ? 'active' : null }}">
+            <a class="nav-link" href="{{ route('complaints.index') }}">
+                <i class="ti-comment menu-icon"></i>
+                <span class="menu-title">Complaints</span>
+            </a>
 </nav>

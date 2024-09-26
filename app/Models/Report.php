@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-    protected $fillable = ['tenant_id', 'property_id', 'issue_type', 'description', 'urgency', 'status'];
+    protected $fillable = [
+            'tenant_id', 
+            'property_id', 
+            'issue_type', 
+            'description', 
+            'urgency', 
+            'status'
+        ];
 
     public function tenant()
     {

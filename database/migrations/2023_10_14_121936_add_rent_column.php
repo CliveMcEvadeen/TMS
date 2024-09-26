@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('rents', function (Blueprint $table) {
-            $table->decimal('deposit',10,2)->nullable()->after('discount');
-        });
+        // Check if the column already exists
+        if (!Schema::hasColumn('rents', 'deposit')) {
+            Schema::table('rents', function (Blueprint $table) {
+                $table->decimal('deposit', 10, 2)->nullable()->after('discount');
+            });
+        }
     }
 
     /**
@@ -21,8 +24,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('rents', function (Blueprint $table) {
-            $table->decimal('deposit',10,2)->nullable()->after('discount');
-        });
+        // Drop the column if it exists
+        if (Schema::hasColumn('rents', 'deposit')) {
+            Schema::table('rents', function (Blueprint $table) {
+                $table->dropColumn('deposit');
+            });
+        }
     }
 };

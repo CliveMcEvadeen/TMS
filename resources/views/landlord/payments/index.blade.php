@@ -1,25 +1,28 @@
-{{-- resources/views/payments/index.blade.php --}}
+{{-- resources/views/landlord/payments/index.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
-    <h2>Your Payment History</h2>
+    <h2>All Tenant Payments</h2>
 
-    {{-- Display payment history --}}
+    {{-- Display all tenant payments --}}
     <table class="table">
         <thead>
             <tr>
-                <th>Payment ID</th>
+                <th>Machant ID</th>
+                <th>Tenant Name</th>
                 <th>Amount</th>
                 <th>Payment Method</th>
                 <th>Status</th>
                 <th>Date</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($payments as $payment)
                 <tr>
                 <td>{{ $payment->payment_id }}</td>
+                    <td>{{ $payment->tenant->name }}</td>
                     <td>${{ number_format($payment->amount, 2) }}</td>
                     <td>{{ ucfirst($payment->payment_method) }}</td>
                     <td>
@@ -33,22 +36,26 @@
                     </td>
                     <td>{{ $payment->created_at->format('d-m-Y') }}</td>
                     <td>
+                        @if($payment->payment_status == 'pending')
+                            {{-- Approve payment --}}
+                            <form action="{{ route('payments.approve', $payment->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-success">Verify</button>
+                            </form>
 
-                    @if($payment->payment_status == 'approved')
-                    <td>
-                    <a href="{{ route('payments.receipt', $payment->payment_id) }}" class="btn btn-primary">Download Receipt</a>
-
-                    @endif
+                            {{-- Reject payment --}}
+                            <form action="{{ route('payments.reject', $payment->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Reject</button>
+                            </form>
+                        @else
+                            <span class="badge bg-secondary">{{ ucfirst($payment->payment_status) }}</span>
+                        @endif
                     </td>
+
                 </tr>
             @endforeach
         </tbody>
     </table>
-
-    {{-- Button to make a new payment --}}
-
-    {{-- Include the payment form modal --}}
-    @include('payments.form')
-    @include('payments.payment-modal')
 </div>
 @endsection

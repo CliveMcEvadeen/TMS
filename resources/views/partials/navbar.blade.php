@@ -43,3 +43,5 @@
         </button>
     </div>
 </nav>
+
+@include('payments.payment-modal')

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('amount')->nullable();
             $table->date('transaction_date')->nullable();
             $table->string('notes')->nullable();
-            $table->foreignId('property_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->string('property_id')->change();
             $table->foreignId('tenant_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('rent_payment_id')->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();

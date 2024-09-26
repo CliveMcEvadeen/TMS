@@ -172,6 +172,7 @@ return [
         Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 
+
     ])->toArray(),
 
     /*

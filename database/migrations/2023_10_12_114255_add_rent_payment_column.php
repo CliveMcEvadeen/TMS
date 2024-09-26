@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('rent_payments', function (Blueprint $table) {
-            $table->date('date_paid')->nullable()->after('due_date');
+            // Add the date_paid column if it doesn't already exist
+            if (!Schema::hasColumn('rent_payments', 'date_paid')) {
+                $table->date('date_paid')->nullable()->after('due_date');
+            }
         });
     }
 
@@ -22,7 +25,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('rent_payments', function (Blueprint $table) {
-            $table->date('date_paid')->nullable()->after('due_date');
+            // Drop the date_paid column if it exists
+            if (Schema::hasColumn('rent_payments', 'date_paid')) {
+                $table->dropColumn('date_paid');
+            }
         });
     }
 };

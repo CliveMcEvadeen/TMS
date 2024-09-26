@@ -1,0 +1,12 @@
+CREATE TABLE reports (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id BIGINT UNSIGNED,
+    property_id BIGINT UNSIGNED,
+    issue_type VARCHAR(255),
+    description TEXT,
+    urgency ENUM('Low', 'Medium', 'High'),
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
+);

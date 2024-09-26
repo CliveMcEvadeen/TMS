@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('amount',10,2)->default(0);
             $table->string('status')->default('new');
             $table->text('notes')->nullable();
-            $table->foreignId('property_id')->constrained()->cascadeOnDelete();
+            $table->string('property_id');
             $table->foreignId('tenants_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
