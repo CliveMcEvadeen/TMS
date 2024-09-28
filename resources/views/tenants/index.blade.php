@@ -4,7 +4,7 @@
     <div class="text-right mb-2">
         @if (auth()->user()->hasRole('rental-admin'))
             <button type="button" class="btn btn-primary btn-rounded btn-icon" data-toggle="modal" data-tooltip="tooltip"
-                data-target="#create" data-placement="bottom" title="" data-original-title="Create Owner">
+                data-target="#create" data-placement="bottom" title="" data-original-title="Create Tenant">
                 <i class="ti-plus"></i>
             </button>
             <button type="button" class="btn btn-primary btn-rounded btn-icon" data-toggle="modal"
@@ -16,8 +16,6 @@
                 <i class="ti-import"></i>
             </button>
         @endif
-
-
     </div>
     <div class="card">
         <div class="card-body">
@@ -43,8 +41,9 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Tenant ID</th> <!-- Added Tenant ID header -->
                             <th>Contact No</th>
-                            <th>Email</th>
+                            <th>Password</th>
                             <th>Address</th>
                             <th class="hide-column">Action</th>
                         </tr>
@@ -52,11 +51,13 @@
                     <tbody>
                         @forelse ($tenants as $row)
                             <tr>
-                                <td><img class="img-fluid"
+                                <td>
+                                    <img class="img-fluid"
                                         src="{{ $row->image ? asset('storage/' . $row->image) : asset('images/logo.png') }}"
                                         alt="user" width="40" height="40">
                                     <a href="{{ route('tenants.view', $row->id) }}">{{ ucwords($row->name) }} </a>
                                 </td>
+                                <td>{{ $row->tenant_id }}</td> <!-- Display Tenant ID -->
                                 <td>{{ $row->contact_no }}</td>
                                 <td>{{ $row->email }}</td>
                                 <td>{{ $row->address }}</td>
@@ -92,10 +93,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center">
-                                    <i class="ti-dropbox" style="font-size: 100px; color:gray;"></i> <br> No
-                                    record
-                                    found!
+                                <td colspan="6" class="text-center"> <!-- Updated colspan to 6 -->
+                                    <i class="ti-dropbox" style="font-size: 100px; color:gray;"></i> <br> No record found!
                                 </td>
                             </tr>
                         @endforelse
@@ -120,11 +119,9 @@
             $.get({
                 url: currentURL + "/" + id,
                 success: function(response) {
-
-                    console.log(response)
-
+                    console.log(response);
                     $('#tenant_id').val(response.id);
-                    $('#name').val(response.name);;
+                    $('#name').val(response.name);
                     $('#contact_no').val(response.contact_no);
                     $('#email').val(response.email);
                     $('#address').val(response.address);

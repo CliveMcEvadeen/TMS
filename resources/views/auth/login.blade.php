@@ -29,7 +29,7 @@
                 </div>
                 <h4 class="text-center">WELCOME TO ReMS</h4>
                 <h6 class="font-weight-light text-center">Sign in to continue.</h6>
-                @error('email')
+                @error('identifier')
                     <div class="alert alert-fill-danger" role="alert">
                         <i class="ti-info-alt"></i>
                         {{ $message }}
@@ -44,9 +44,9 @@
                 <form class="pt-3" method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                            placeholder="{{ __('Email Address') }}" value="{{ old('email') }}" required
-                            autocomplete="email" autofocus>
+                        <input type="text" name="identifier" class="form-control form-control-lg" id="exampleInputIdentifier"
+                            placeholder="{{ __('Email or Tenant ID') }}" value="{{ old('identifier') }}" required
+                            autocomplete="identifier" autofocus>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control form-control-lg" id="password"

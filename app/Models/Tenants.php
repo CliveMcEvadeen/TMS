@@ -18,7 +18,10 @@ class Tenants extends Model
         'contact_no',
         'email',
         'address',
-        'image'
+        'image',
+        'tenant_id',
+        'password',
+        'user_id',
     ];
 
     public function rents(): HasMany

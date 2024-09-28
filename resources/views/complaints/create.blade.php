@@ -3,6 +3,7 @@
 @extends('layouts.app')
 
 @section('content')
+<p>Authenticated User ID: {{ Auth::id() }}</p>
 <form action="{{ route('complaints.store') }}" method="POST">
     @csrf
     <div class="mb-3">

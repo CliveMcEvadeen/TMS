@@ -121,7 +121,7 @@
 
         @role('rental-admin')
         <li class="nav-item {{ $url == 'complaints' ? 'active' : null }}">
-            <a class="nav-link" href="{{ route('complaints.index') }}">
+            <a class="nav-link" href="{{ route('complaints.all') }}">
                 <i class="ti-comment menu-icon"></i>
                 <span class="menu-title">Complaints</span>
             </a>

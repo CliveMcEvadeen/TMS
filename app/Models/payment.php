@@ -19,7 +19,8 @@ class Payment extends Model
         'approved_at',
         'rejected_at',
         'payment_date',
-        'payment_details'
+        'payment_details',
+        'user_id',
     ];
 
     public function tenant()

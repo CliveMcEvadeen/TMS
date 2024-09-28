@@ -11,7 +11,7 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Owner</label>
+                        <label>Nature</label>
                         <select name="owner_id" class="form-control">
                             @foreach ($owners as $owner)
                                 <option value="{{ $owner->id }}">{{ $owner->name }}</option>

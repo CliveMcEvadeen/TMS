@@ -31,50 +31,46 @@ class PaymentController extends Controller
      * Store a newly created payment.
      */
     public function store(Request $request)
-{
-    // Validate the form input
-    $request->validate([
-        'amount' => 'required|numeric|min:0.01',
-        'payment_method' => 'required|string|in:credit_card,bank_transfer,mobile_money',
-    ]);
-    $user = Auth::user();
-
-    $tenant = Tenants::where('user_id', $user->id)->first();
-
-    try {
-        DB::beginTransaction();
-
-        // Generate a unique payment ID
-        $payment_id = random_int(100000000000, 999999999999);
-        while (Payment::where('payment_id', $payment_id)->exists()) {
-            $payment_id = random_int(100000000000, 999999999999);
-        }
-
-        // Create a new payment
-        $payment = new Payment();
-        $payment->tenant_id = $tenant->id;  // Assuming the authenticated user is a tenant
-        $payment->user_id = Auth::id();           // Set the user_id to the authenticated user's ID
-        $payment->payment_id = $payment_id;       // Set the unique payment ID
-        $payment->amount = $request->input('amount');
-        $payment->payment_method = $request->input('payment_method');
-        $payment->payment_status = 'pending';      // Set the initial status to 'pending'
-        $payment->save();
-
-        DB::commit();
-
-        Log::info('Payment created successfully', ['payment_id' => $payment->payment_id, 'tenant_id' => $payment->tenant_id]);
-        return redirect()->back()->with('success', 'Payment submitted successfully and is pending approval.');
-
-    } catch (Exception $e) {
-        DB::rollBack();
-        Log::error("Error creating payment: " . $e->getMessage(), [
-            'tenant_id' => Auth::id(),
-            'amount' => $request->input('amount')
+    {
+        // Validate the form input
+        $request->validate([
+            'amount' => 'required|numeric|min:0.01',
+            'payment_method' => 'required|string|in:credit_card,bank_transfer,mobile_money',
         ]);
-        return redirect()->back()->with('error', 'There was an error processing your payment.');
-    }
-}
 
+        try {
+            DB::beginTransaction();
+
+            // Generate a unique payment ID
+            $payment_id = random_int(100000000000, 999999999999);
+            while (Payment::where('payment_id', $payment_id)->exists()) {
+                $payment_id = random_int(100000000000, 999999999999);
+            }
+
+            // Create a new payment
+            $payment = new Payment();
+            $payment->tenant_id = Auth::user()->id;  // Assuming the authenticated user is a tenant
+            $payment->user_id = Auth::id();           // Set the user_id to the authenticated user's ID
+            $payment->payment_id = $payment_id;       // Set the unique payment ID
+            $payment->amount = $request->input('amount');
+            $payment->payment_method = $request->input('payment_method');
+            $payment->payment_status = 'pending';      // Set the initial status to 'pending'
+            $payment->save();
+
+            DB::commit();
+
+            Log::info('Payment created successfully', ['payment_id' => $payment->payment_id, 'tenant_id' => $payment->tenant_id]);
+            return redirect()->back()->with('success', 'Payment submitted successfully and is pending approval.');
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("Error creating payment: " . $e->getMessage(), [
+                'tenant_id' => Auth::id(),
+                'amount' => $request->input('amount')
+            ]);
+            return redirect()->back()->with('error', 'There was an error processing your payment.');
+        }
+    }
 
     /**
      * Display all payments for the landlord.
